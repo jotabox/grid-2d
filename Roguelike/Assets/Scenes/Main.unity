@@ -367,6 +367,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: d3fc638da064e524db4eb91eb4e7705e, type: 2}
   - {fileID: 11400000, guid: 10570cbeac85b7c4b914f1a981b2dfa4, type: 2}
   - {fileID: 11400000, guid: cba0aa5fe49244842b92459741032779, type: 2}
+  WallTiles:
+  - {fileID: 11400000, guid: d2358ef21e4392644bc514fcfd886177, type: 2}
+  - {fileID: 11400000, guid: 2672a3fc24e6c5248a1446e70bbb0742, type: 2}
 --- !u!156049354 &1101151237
 Grid:
   m_ObjectHideFlags: 0
