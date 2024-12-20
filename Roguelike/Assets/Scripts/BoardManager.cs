@@ -16,12 +16,13 @@ public class BoardManager : MonoBehaviour
 
     private Tilemap _tilemap;
     private CellData[,] _cell;
-  
+    private Grid _worldPos;
 
     [SerializeField] private int width;
     [SerializeField] private int height;
     public Tile[] GroundTiles;
     public Tile[] WallTiles;
+    public PlayerController player;
 
 
     // Start is called before the first frame update
@@ -33,6 +34,8 @@ public class BoardManager : MonoBehaviour
 
         // inicialização da matriz , que guardara os dados do tile, ex: se é passavel 
         _cell = new CellData[width, height];
+
+        _worldPos = GetComponentInChildren<Grid>();
 
         // laço for para gerar o boasr"tabuleiro" com as medidas passadas de altura e largura
         for (int i = 0; i < height; i++)
@@ -69,12 +72,16 @@ public class BoardManager : MonoBehaviour
                 // aqui estamos setando no mapa o tile escolhido aleatorio no tilenumber , nas posiçoes i e j
                 _tilemap.SetTile(new Vector3Int(i,j,0),tile);
             }
+
         }
+
+        player.Spawn(this, new Vector2Int(1,1));
     }
 
-    // Update is called once per frame
-    void Update()
-    {
 
+
+    public Vector3 CellToWorld(Vector2Int cellIndex)
+    {
+        return _worldPos.GetCellCenterWorld((Vector3Int)cellIndex);
     }
 }
