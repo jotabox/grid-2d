@@ -7,10 +7,19 @@ using UnityEngine;
 public class BoardManager : MonoBehaviour
 {
 
-    private Tilemap _tilemap;
 
-    [SerializeField] private float width;
-    [SerializeField] private float height;
+    public class CellData
+    {
+        public bool Passable;
+    }
+
+
+    private Tilemap _tilemap;
+    private CellData[,] _cell;
+  
+
+    [SerializeField] private int width;
+    [SerializeField] private int height;
     public Tile[] GroundTiles;
     public Tile[] WallTiles;
 
@@ -21,6 +30,9 @@ public class BoardManager : MonoBehaviour
         // aqui o _tilemap está acessando o "tilemap" da componente filho ou seja
         // BoargaManager > Ground > tilemap
         _tilemap = GetComponentInChildren<Tilemap>();
+
+        // inicialização da matriz , que guardara os dados do tile, ex: se é passavel 
+        _cell = new CellData[width, height];
 
         // laço for para gerar o boasr"tabuleiro" com as medidas passadas de altura e largura
         for (int i = 0; i < height; i++)
@@ -34,18 +46,24 @@ public class BoardManager : MonoBehaviour
                 //variavel que vai setar os tiles
                 Tile tile;
 
+                //inicia a celula como uma nova instancia de cell data , para que cada celula tenha seu 
+                //proprio atributo configurado separado
+                _cell[i,j] = new CellData();
+
                 //Essa condição verifica se a posição atual está nas bordas da matriz
                 if (j == 0 || i == 0 || j == width - 1  || i == height -1)
                 {
                     //Se a posição está na borda, um tile aleatório é selecionado do array WallTiles para ser usado.
                     //Isso  representa uma parede ou limite do mapa.
                     tile = WallTiles[Random.Range(0, WallTiles.Length)];
+                    _cell[i,j].Passable = false;
                 }
                 else
                 {
                     //Para posições que não estão nas bordas, um tile aleatório é selecionado do array GroundTiles,
                     //representando o terreno interior.
                     tile = GroundTiles[Random.Range(0, GroundTiles.Length)];
+                    _cell[i, j].Passable = true;
                 }
 
                 // aqui estamos setando no mapa o tile escolhido aleatorio no tilenumber , nas posiçoes i e j
