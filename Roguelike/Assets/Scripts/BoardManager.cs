@@ -51,15 +51,15 @@ public class BoardManager : MonoBehaviour
 
                 //inicia a celula como uma nova instancia de cell data , para que cada celula tenha seu 
                 //proprio atributo configurado separado
-                _cell[i,j] = new CellData();
+                _cell[i, j] = new CellData();
 
                 //Essa condição verifica se a posição atual está nas bordas da matriz
-                if (j == 0 || i == 0 || j == width - 1  || i == height -1)
+                if (j == 0 || i == 0 || j == width - 1 || i == height - 1)
                 {
                     //Se a posição está na borda, um tile aleatório é selecionado do array WallTiles para ser usado.
                     //Isso  representa uma parede ou limite do mapa.
                     tile = WallTiles[Random.Range(0, WallTiles.Length)];
-                    _cell[i,j].Passable = false;
+                    _cell[i, j].Passable = false;
                 }
                 else
                 {
@@ -70,18 +70,25 @@ public class BoardManager : MonoBehaviour
                 }
 
                 // aqui estamos setando no mapa o tile escolhido aleatorio no tilenumber , nas posiçoes i e j
-                _tilemap.SetTile(new Vector3Int(i,j,0),tile);
+                _tilemap.SetTile(new Vector3Int(i, j, 0), tile);
             }
 
         }
 
-        player.Spawn(this, new Vector2Int(1,1));
+        player.Spawn(this, new Vector2Int(1, 1));
     }
-
-
-
     public Vector3 CellToWorld(Vector2Int cellIndex)
     {
         return _worldPos.GetCellCenterWorld((Vector3Int)cellIndex);
+    }
+
+    public CellData GetCellData(Vector2Int cellIndex)
+    {
+        if (cellIndex.x < 0 || cellIndex.x > width || cellIndex.y < 0 || cellIndex.y > height)
+        {
+            return null;
+        }
+
+        return _cell[cellIndex.x, cellIndex.y];
     }
 }
